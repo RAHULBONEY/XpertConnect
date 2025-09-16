@@ -1,0 +1,55 @@
+.browse-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.browse-header {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.browse-header h1 {
+  font-size: 36px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  color: var(--text-dark);
+}
+
+.browse-header p {
+  font-size: 18px;
+  color: var(--text-muted);
+  margin: 0 0 24px 0;
+}
+
+.search-bar {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.search-input {
+  width: 100%;
+  padding: 14px 20px;
+  border: 1px solid var(--border-color);
+  border-radius: 9999px; /* Pill shape */
+  font-size: 16px;
+  box-sizing: border-box;
+  background-color: var(--container-light);
+  color: var(--text-dark);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.2);
+}
+
+.tutor-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+.tutor-card-link {
+  text-decoration: none;
+  color: inherit;
+}

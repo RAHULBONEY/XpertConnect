@@ -1,0 +1,25 @@
+/* Define a bright, clean, and professional color palette. */
+:root {
+  --background-light: #f8f9fa; /* Very light gray for the main background */
+  --container-light: #ffffff; /* Pure white for cards and sidebars */
+  --border-color: #dee2e6;
+  --text-dark: #212529; /* High-contrast dark text */
+  --text-muted: #6c757d; /* Muted gray for secondary text */
+  --accent-blue: #0d6efd;
+  --accent-blue-hover: #0b5ed7;
+  --accent-red: #dc3545;
+  --accent-red-hover: #bb2d3b;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  background-color: var(--background-light);
+  color: var(--text-dark);
+}

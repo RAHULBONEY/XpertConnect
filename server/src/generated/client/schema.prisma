@@ -1,0 +1,121 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// AUTHENTICATION AND USER ROLES
+model User {
+  id                   String    @id @default(cuid())
+  email                String    @unique
+  name                 String
+  passwordHash         String
+  role                 UserRole  @default(ASPIRANT)
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+  resetPasswordToken   String?
+  resetPasswordExpires DateTime?
+
+  // Relationships
+  aspirantProfile AspirantProfile?
+  tutorProfile    TutorProfile?
+  enrollments     Enrollment[]
+  likedCourses    LikedCourse[]
+
+  bookingsAsAspirant Booking[] @relation("AspirantBookings")
+  bookingsAsTutor    Booking[] @relation("TutorBookings")
+}
+
+model AspirantProfile {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  user          User     @relation(fields: [userId], references: [id])
+  interests     String[]
+  skills        String[]
+  learningGoals String[]
+}
+
+model TutorProfile {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id])
+  headline    String
+  bio         String
+  hourlyRate  Int
+  specialties String[]
+  courses     Course[]
+}
+
+// COURSE-RELATED MODELS
+model Course {
+  id          String       @id @default(cuid())
+  title       String
+  description String
+  tutorId     String
+  tutor       TutorProfile @relation(fields: [tutorId], references: [id])
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  // Relationships
+  enrollments Enrollment[]
+  likedBy     LikedCourse[]
+}
+
+// JOIN TABLES FOR MANY-TO-MANY RELATIONSHIPS
+model Enrollment {
+  userId     String
+  courseId   String
+  user       User     @relation(fields: [userId], references: [id])
+  course     Course   @relation(fields: [courseId], references: [id])
+  enrolledAt DateTime @default(now())
+
+  @@id([userId, courseId])
+}
+
+model LikedCourse {
+  userId   String
+  courseId String
+  user     User     @relation(fields: [userId], references: [id])
+  course   Course   @relation(fields: [courseId], references: [id])
+  likedAt  DateTime @default(now())
+
+  @@id([userId, courseId])
+}
+
+model Booking {
+  id          String        @id @default(cuid())
+  sessionDate DateTime
+  status      BookingStatus @default(PENDING)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  // Relationships
+  aspirantId String
+  aspirant   User   @relation("AspirantBookings", fields: [aspirantId], references: [id])
+
+  tutorId String
+  tutor   User   @relation("TutorBookings", fields: [tutorId], references: [id])
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+// ENUM for User Roles
+enum UserRole {
+  ASPIRANT
+  TUTOR
+}
