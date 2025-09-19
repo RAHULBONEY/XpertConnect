@@ -20,6 +20,7 @@ const TutorPublicProfilePage = () => {
       const fetchTutor = async () => {
         try {
           setLoading(true); // Reset loading state for each fetch
+          setError(""); // Reset error state
           const { data } = await axios.get(
             `http://localhost:8000/api/tutor/${userId}`
           );
@@ -62,7 +63,7 @@ const TutorPublicProfilePage = () => {
   }
 
   // 3. This is the most critical check. It prevents a crash if the API
-  //    succeeded but returned incomplete data.
+  //    succeeded but returned incomplete data (e.g., no nested 'user' object).
   if (!tutor || !tutor.user) {
     return (
       <Layout>

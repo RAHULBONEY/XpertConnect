@@ -7,13 +7,14 @@ import {
   Navigate,
 } from "react-router-dom";
 
-// Import all page and helper components with corrected names
+// Import all page and helper components
 import LoginPage from "./pages/LoginPage.jsx";
 import SignupPage from "./pages/SignupPage.jsx";
 import HomePage from "./pages/HomePage.jsx";
-import BrowseExpertsPage from "./pages/BrowseExpertsPage.jsx"; // Corrected typo here
+import BrowseExpertsPage from "./pages/BrowseExpertsPage.jsx";
 import TutorDashboard from "./pages/TutorDashboard.jsx";
-// import TutorPublicProfilePage from "./pages/TutorPublicProfile.jsx";
+// THIS IS THE CORRECTED IMPORT PATH:
+import TutorPublicProfilePage from "./pages/TutorPublicProfile.jsx";
 import SettingsPage from "./pages/SettingsPage.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import { useAuth } from "./context/AuthContext.jsx";
@@ -54,10 +55,18 @@ function App() {
           }
         />
 
-        {/* Dynamic route for viewing any tutor's public profile */}
-        <Route path="/tutor/:userId" element={<TutorPublicProfilePage />} />
+        {/* THIS IS THE NEW DYNAMIC ROUTE YOU NEED */}
+        {/* It captures the tutor's ID from the URL and renders the profile page */}
+        <Route
+          path="/tutor/:userId"
+          element={
+            <ProtectedRoute>
+              <TutorPublicProfilePage />
+            </ProtectedRoute>
+          }
+        />
 
-        {/* Route for a tutor to edit their OWN profile */}
+        {/* This route is for a tutor to edit their OWN profile */}
         <Route
           path="/profile"
           element={
@@ -71,7 +80,7 @@ function App() {
           }
         />
 
-        {/* Default route that redirects to the login page */}
+        {/* --- Default Route --- */}
         <Route path="/" element={<LoginPage />} />
       </Routes>
     </Router>
