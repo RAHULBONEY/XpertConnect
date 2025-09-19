@@ -15,12 +15,11 @@ const TutorPublicProfilePage = () => {
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
   useEffect(() => {
-    // Only fetch data if there is a userId in the URL
     if (userId) {
       const fetchTutor = async () => {
         try {
-          setLoading(true); // Reset loading state for each fetch
-          setError(""); // Reset error state
+          setLoading(true);
+          setError("");
           const { data } = await axios.get(
             `http://localhost:8000/api/tutor/${userId}`
           );
@@ -36,11 +35,8 @@ const TutorPublicProfilePage = () => {
       };
       fetchTutor();
     }
-  }, [userId]); // Dependency array ensures this runs when the user ID changes
+  }, [userId]);
 
-  // --- Render Logic ---
-
-  // 1. Show a loading message while the API call is in progress
   if (loading) {
     return (
       <Layout>
@@ -51,7 +47,6 @@ const TutorPublicProfilePage = () => {
     );
   }
 
-  // 2. Show an error message if the API call failed
   if (error) {
     return (
       <Layout>
@@ -62,8 +57,6 @@ const TutorPublicProfilePage = () => {
     );
   }
 
-  // 3. This is the most critical check. It prevents a crash if the API
-  //    succeeded but returned incomplete data (e.g., no nested 'user' object).
   if (!tutor || !tutor.user) {
     return (
       <Layout>
@@ -74,7 +67,6 @@ const TutorPublicProfilePage = () => {
     );
   }
 
-  // 4. Only if all checks pass, render the full profile page.
   return (
     <Layout>
       {isBookingModalOpen && (

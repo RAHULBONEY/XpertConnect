@@ -15,7 +15,6 @@ const SignupPage = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const navigate = useNavigate();
 
-  // This function handles changes for ALL inputs
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -77,7 +76,6 @@ const SignupPage = () => {
             />
           </div>
 
-          {/* This is the corrected password input block */}
           <div className="form-group">
             <label htmlFor="password" className="form-label">
               Password
@@ -87,7 +85,7 @@ const SignupPage = () => {
               type="password"
               name="password"
               value={formData.password}
-              onChange={handleChange} // This line is crucial
+              onChange={handleChange}
               className="form-input"
               required
             />

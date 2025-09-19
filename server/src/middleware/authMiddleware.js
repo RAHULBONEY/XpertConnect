@@ -1,6 +1,5 @@
 const jwt = require("jsonwebtoken");
 
-// Middleware to verify JWT and attach user to request
 const protect = (req, res, next) => {
   let token;
   if (
@@ -8,16 +7,13 @@ const protect = (req, res, next) => {
     req.headers.authorization.startsWith("Bearer")
   ) {
     try {
-      // Get token from header
       token = req.headers.authorization.split(" ")[1];
 
-      // Verify token
       const decoded = jwt.verify(
         token,
         process.env.JWT_SECRET || "your_default_secret_key"
       );
 
-      // Attach user ID and role to the request object
       req.user = {
         id: decoded.userId,
         role: decoded.role,
@@ -35,7 +31,6 @@ const protect = (req, res, next) => {
   }
 };
 
-// Middleware to restrict access to specific roles
 const restrictTo = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {

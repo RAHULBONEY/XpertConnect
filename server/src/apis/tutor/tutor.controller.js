@@ -2,7 +2,6 @@ const { PrismaClient } = require("../../generated/client");
 const { get } = require("./tutor.routes");
 const prisma = new PrismaClient();
 
-// Controller to get or create a tutor's profile
 const getMyProfile = async (req, res) => {
   try {
     const profile = await prisma.tutorProfile.findUnique({
@@ -20,7 +19,6 @@ const getMyProfile = async (req, res) => {
   }
 };
 
-// Controller to create or update a tutor's profile
 const updateMyProfile = async (req, res) => {
   const { headline, bio, hourlyRate, specialties } = req.body;
 
@@ -44,7 +42,6 @@ const updateMyProfile = async (req, res) => {
 const getAllTutors = async (req, res) => {
   try {
     const tutors = await prisma.tutorProfile.findMany({
-      // Include the user's name from the related User table
       include: {
         user: {
           select: {
@@ -68,7 +65,7 @@ const getTutorById = async (req, res) => {
         user: {
           select: {
             name: true,
-            email: true, // You might want to include email for a booking form
+            email: true,
           },
         },
       },
