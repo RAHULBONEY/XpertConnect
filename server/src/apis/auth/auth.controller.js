@@ -98,14 +98,11 @@ const forgotPassword = async (req, res) => {
   try {
     const user = await prisma.user.findUnique({ where: { email } });
 
-    // Important: Always send a success-like response to prevent email enumeration attacks
     if (!user) {
-      return res
-        .status(200)
-        .json({
-          message:
-            "If an account with that email exists, a password reset link has been sent.",
-        });
+      return res.status(200).json({
+        message:
+          "If an account with that email exists, a password reset link has been sent.",
+      });
     }
 
     // 1. Generate a secure reset token
@@ -127,12 +124,10 @@ const forgotPassword = async (req, res) => {
     console.log(resetUrl);
     console.log("--------------------");
 
-    res
-      .status(200)
-      .json({
-        message:
-          "If an account with that email exists, a password reset link has been sent.",
-      });
+    res.status(200).json({
+      message:
+        "If an account with that email exists, a password reset link has been sent.",
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });

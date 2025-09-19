@@ -2,7 +2,6 @@ const { PrismaClient } = require("../../generated/client");
 const prisma = new PrismaClient();
 
 const createBooking = async (req, res) => {
-  // The logged-in user's ID will come from our 'protect' middleware
   const aspirantId = req.user.id;
   const { tutorId, sessionDate } = req.body;
 
@@ -14,7 +13,6 @@ const createBooking = async (req, res) => {
   }
 
   try {
-    // Ensure the tutorId corresponds to a user with the 'TUTOR' role
     const tutorUser = await prisma.user.findUnique({ where: { id: tutorId } });
     if (!tutorUser || tutorUser.role !== "TUTOR") {
       return res
@@ -32,8 +30,6 @@ const createBooking = async (req, res) => {
       },
     });
 
-    // TODO: Here is where you would trigger a Kafka event for notifications
-    // For now, we'll just log it.
     console.log(
       `Kafka Event (Simulated): New booking created - ID ${newBooking.id}`
     );

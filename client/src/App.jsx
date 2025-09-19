@@ -1,5 +1,5 @@
 import React from "react";
-// Make sure to import Navigate for redirects
+
 import {
   BrowserRouter as Router,
   Routes,
@@ -7,13 +7,12 @@ import {
   Navigate,
 } from "react-router-dom";
 
-// Import all page and helper components
 import LoginPage from "./pages/LoginPage.jsx";
 import SignupPage from "./pages/SignupPage.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import BrowseExpertsPage from "./pages/BrowseExpertsPage.jsx";
 import TutorDashboard from "./pages/TutorDashboard.jsx";
-// THIS IS THE CORRECTED IMPORT PATH:
+
 import TutorPublicProfilePage from "./pages/TutorPublicProfile.jsx";
 import SettingsPage from "./pages/SettingsPage.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
@@ -55,8 +54,6 @@ function App() {
           }
         />
 
-        {/* THIS IS THE NEW DYNAMIC ROUTE YOU NEED */}
-        {/* It captures the tutor's ID from the URL and renders the profile page */}
         <Route
           path="/tutor/:userId"
           element={
@@ -66,7 +63,6 @@ function App() {
           }
         />
 
-        {/* This route is for a tutor to edit their OWN profile */}
         <Route
           path="/profile"
           element={
@@ -80,7 +76,6 @@ function App() {
           }
         />
 
-        {/* --- Default Route --- */}
         <Route path="/" element={<LoginPage />} />
       </Routes>
     </Router>
